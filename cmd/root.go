@@ -15,9 +15,18 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "datanex",
-	Short: "Data exploration and management CLI",
-	Long:  `DataNex is a modern command-line tool for exploring databases, running SQL, and managing data workflows.`,
+	Use:     "datanex",
+	Short:   "Data exploration and management CLI",
+	Long:    `DataNex is a modern command-line tool for exploring databases, running SQL, and managing data workflows.`,
+	Version: "0.1.0",
+}
+
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Print the DataNex version",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("DataNex v0.1.0")
+	},
 }
 
 var dbCmd = &cobra.Command{
@@ -80,9 +89,10 @@ var shellCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(dbCmd, queryCmd, shellCmd)
+	rootCmd.AddCommand(dbCmd, queryCmd, shellCmd, versionCmd)
 	rootCmd.SetOut(os.Stdout)
 	rootCmd.SetErr(os.Stderr)
+	rootCmd.SetVersionTemplate("DataNex {{.Version}}\n")
 }
 
 func main() {
